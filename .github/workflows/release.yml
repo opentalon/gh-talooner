@@ -1,0 +1,50 @@
+name: Release
+
+# Manual and pinned, not automatic: a maintainer deliberately promotes one
+# talooner release into a gh-talooner release, same "plugin first, tag, then
+# bump callers" landing order the version-skew doc applies everywhere else.
+on:
+  workflow_dispatch:
+    inputs:
+      talooner_tag:
+        description: "talooner release tag to package (e.g. v1.2.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download talooner CLI binaries
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release download '${{ inputs.talooner_tag }}' --repo opentalon/talooner \
+            --pattern 'talooner_*' --dir dist
+
+      - name: Rename to gh's precompiled extension convention
+        run: |
+          set -euo pipefail
+          cd dist
+          for f in talooner_*; do
+            rest="${f#talooner_}"
+            os="${rest%%_*}"
+            arch="${rest#*_}"
+            mv "$f" "gh-talooner-${os}-${arch}"
+          done
+          ls -l
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          tag='${{ inputs.talooner_tag }}'
+          gh release create "$tag" dist/gh-talooner-* \
+            --title "$tag" \
+            --notes "Packages https://github.com/opentalon/talooner/releases/tag/${tag} for \`gh extension install\`. Version-skew note: this CLI's protocol floor tracks whatever talooner@${tag} was built against — see README."
