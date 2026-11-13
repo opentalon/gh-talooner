@@ -42,5 +42,9 @@ them to `gh-talooner-<os>-<arch>` per `gh`'s
 [precompiled extension convention](https://docs.github.com/en/github-cli/github-cli/creating-github-cli-extensions),
 and publishes a matching release here under the same tag.
 
+The download needs the `REPO_READ_TOKEN` secret in this repository (Contents:
+read on `Talooner/talooner`); `GITHUB_TOKEN` cannot read another repository's
+releases.
+
 Supported platforms: linux/amd64, linux/arm64, darwin/amd64, darwin/arm64.
 No Windows build.
