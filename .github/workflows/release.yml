@@ -24,7 +24,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          gh release download '${{ inputs.talooner_tag }}' --repo opentalon/talooner \
+          gh release download '${{ inputs.talooner_tag }}' --repo Talooner/talooner \
             --pattern 'talooner_*' --dir dist
 
       - name: Rename to gh's precompiled extension convention
@@ -47,4 +47,4 @@ jobs:
           tag='${{ inputs.talooner_tag }}'
           gh release create "$tag" dist/gh-talooner-* \
             --title "$tag" \
-            --notes "Packages https://github.com/opentalon/talooner/releases/tag/${tag} for \`gh extension install\`. Version-skew note: this CLI's protocol floor tracks whatever talooner@${tag} was built against — see README."
+            --notes "Packages https://github.com/Talooner/talooner/releases/tag/${tag} for \`gh extension install\`. Version-skew note: this CLI's protocol floor tracks whatever talooner@${tag} was built against — see README."
