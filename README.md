@@ -1,6 +1,6 @@
 # gh-talooner
 
-`gh` extension packaging for [`talooner`](https://github.com/opentalon/talooner),
+`gh` extension packaging for [`talooner`](https://github.com/Talooner/talooner),
 the OpenTalon GitHub review bot's CLI. This repo carries no Go source of its
 own — it repackages the binaries `talooner`'s own release workflow already
 builds and attaches to its GitHub releases, under the asset naming `gh`
@@ -20,7 +20,7 @@ gh talooner cluster whoami
 
 or, if the installed binary's directory is on `PATH` (see `gh extension list
 --pinned` for its location), directly as `talooner` — same binary, same
-subcommands. See `talooner`'s own [`auth.md`](https://github.com/opentalon/talooner/blob/master/auth.md)
+subcommands. See `talooner`'s own [`auth.md`](https://github.com/Talooner/talooner/blob/master/auth.md)
 for the full onboarding walkthrough.
 
 ## Version skew
@@ -37,7 +37,7 @@ protocol change is plugin first, tag, then bump callers — this repo included.
 Releases here are **not** automatic. A maintainer runs the `Release` workflow
 (`workflow_dispatch`) with the `talooner` git tag to package, e.g. `v1.2.0`.
 The workflow downloads that tag's `talooner_<os>_<arch>` binaries from
-[`talooner`'s release](https://github.com/opentalon/talooner/releases), renames
+[`talooner`'s release](https://github.com/Talooner/talooner/releases), renames
 them to `gh-talooner-<os>-<arch>` per `gh`'s
 [precompiled extension convention](https://docs.github.com/en/github-cli/github-cli/creating-github-cli-extensions),
 and publishes a matching release here under the same tag.
